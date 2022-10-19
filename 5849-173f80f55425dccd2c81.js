@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_gatsby_site=self.webpackChunkmy_gatsby_site||[]).push([[5849],{75849:function(e,t,a){a.r(t);var s=a(2436),c=a(13792);t.default=(0,s.connectTemplate)(c.MyProjectPage,{displayName:"MyProjectPage",children:[]})}}]);
+//# sourceMappingURL=5849-173f80f55425dccd2c81.js.map
