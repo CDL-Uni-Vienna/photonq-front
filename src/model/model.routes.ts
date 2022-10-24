@@ -1,6 +1,7 @@
 export enum Path {
   Login = '/login',
   Reset = '/reset',
+  Delete = '/delete',
   Register = '/signup',
   Profile = '/profile',
   MyProjects = '/my-projects',

@@ -30,7 +30,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.3",
     "@snek-functions/iam": "^0.0.10",
-    "@snek-functions/origin": "^0.0.19",
+    "@snek-functions/origin": "^0.0.20",
     "@tailwindcss/typography": "^0.5.4",
     "@types/react-helmet": "^6.1.5",
     "framer-motion": "^4",
@@ -51,6 +51,7 @@
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.18.3",
     "react-table": "^7.8.0",
+    "sharp": "^0.31.1",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
