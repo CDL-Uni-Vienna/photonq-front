@@ -1,8 +1,10 @@
 import clsx from 'clsx'
-import {Link} from 'gatsby'
 import React, {ReactNode} from 'react'
 import {useTranslation} from 'react-i18next'
 import {Path} from '../../model/model.routes'
+
+import {navigate} from '@jaenjs/jaen'
+import {Button} from '@mui/material'
 
 interface ProfileContentContainerProps {
   children: ReactNode
@@ -23,11 +25,24 @@ export default function ProfileContentContainer({
         })}>
         {children}
       </div>
-      <Link to={Path.Reset}>
-        <p className="transform hover:-translate-y-1">
-          {t('Forgot your password?')}
-        </p>
-      </Link>
+      <Button
+        onClick={() => navigate(Path.Reset)}
+        variant={'contained'}
+        size={'large'}>
+        {t('Update Details')}
+      </Button>
+      <Button
+        onClick={() => navigate(Path.Reset)}
+        variant={'contained'}
+        size={'large'}>
+        {t('Update Password')}
+      </Button>
+      <Button
+        onClick={() => navigate(Path.Reset)}
+        variant={'contained'}
+        size={'large'}>
+        {t('Delete Account')}
+      </Button>
     </>
   )
 }
