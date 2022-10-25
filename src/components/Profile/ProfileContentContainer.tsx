@@ -26,24 +26,24 @@ export default function ProfileContentContainer({
         {children}
       </div>
       <Button
-        className={'mr-1'}
+        sx={{mr: 2}}
         onClick={() => navigate(Path.Reset)}
         variant={'contained'}
-        size={'large'}>
+        size={'medium'}>
         {t('Update Details')}
       </Button>
       <Button
-        className={'mr-1'}
+        sx={{mr: 2}}
         onClick={() => navigate(Path.Reset)}
         variant={'contained'}
-        size={'large'}>
+        size={'medium'}>
         {t('Update Password')}
       </Button>
       <Button
-        className={'mr-1'}
+        sx={{mr: 2}}
         onClick={() => navigate(Path.Delete)}
         variant={'contained'}
-        size={'large'}>
+        size={'medium'}>
         {t('Delete Account')}
       </Button>
     </>
