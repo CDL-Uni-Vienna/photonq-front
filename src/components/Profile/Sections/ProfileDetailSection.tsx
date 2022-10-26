@@ -1,8 +1,20 @@
-import {Table, TableBody, TableCell, TableRow, TextField} from '@mui/material'
+import {
+  Alert,
+  Button,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TextField
+} from '@mui/material'
+import {red} from '@mui/material/colors'
+import {deleteUser, resetPassword} from '@snek-functions/origin'
 import React, {useContext, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {User} from '../../../model/types/type.user'
 import {AuthContext} from '../../../providers/AuthProvider'
+import LoadingButton from '../../LoadingButton'
 import ProfileContentContainer from '../ProfileContentContainer'
 import ProfileSection from '../ProfileSection'
 import ProfileSectionHeader from '../ProfileSectionHeader'
@@ -11,8 +23,75 @@ const tableKeys: (keyof User)[] = ['firstName', 'lastName', 'email']
 
 export default function ProfileDetailSection() {
   const {t} = useTranslation()
+  const [error, setError] = useState('')
   const {value: user, setValue: setUser} = useContext(AuthContext)
-  const [isEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+
+  const [isLoadingReset, setIsLoadingReset] = useState(false)
+  const [isLoadingData, setIsLoadingData] = useState(false)
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+
+  const [dataRequested, setDataRequested] = useState(false)
+  const [resetRequested, setResetRequested] = useState(false)
+  const [deleteRequested, setDeleteRequested] = useState(false)
+
+  const resetSnekbar = () => {
+    setResetRequested(false)
+    setDeleteRequested(false)
+    setDataRequested(false)
+  }
+  const onDataRequest = async () => {
+    setIsLoadingData(true)
+    try {
+      setError('')
+
+      await deleteUser({
+        email: user!.email
+      })
+
+      resetSnekbar()
+      setDataRequested(true)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoadingData(() => false)
+    }
+  }
+
+  const onDeleteUser = async () => {
+    setIsLoadingDelete(true)
+    try {
+      setError('')
+
+      await deleteUser({
+        email: user!.email
+      })
+
+      resetSnekbar()
+      setDeleteRequested(true)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoadingDelete(() => false)
+    }
+  }
+  const onResetPassword = async () => {
+    setIsLoadingReset(true)
+    try {
+      setError('')
+
+      await resetPassword({
+        email: user!.email
+      })
+
+      resetSnekbar()
+      setResetRequested(true)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoadingReset(() => false)
+    }
+  }
 
   if (!user) return null
 
@@ -40,7 +119,7 @@ export default function ProfileDetailSection() {
                     {key === 'email' ? 'E-MAIL' : t(key).toUpperCase()}
                   </TableCell>
                   <TableCell>
-                    {isEditing ? (
+                    {key !== 'email' && isEditing ? (
                       <TextField
                         onChange={e => handleOnChange(e, key as keyof User)}
                         value={user[key as keyof User]}
@@ -55,7 +134,62 @@ export default function ProfileDetailSection() {
               ))}
           </TableBody>
         </Table>
+        <Button
+          sx={{mt: 3, mr: 2}}
+          onClick={() => setIsEditing(!isEditing)}
+          variant={'contained'}
+          size={'medium'}>
+          {t('Update Details')}
+        </Button>
+        <LoadingButton
+          sx={{mt: 3, mr: 2}}
+          onClick={() => onResetPassword()}
+          disabled={resetRequested}
+          text={t('Update password')}
+          isLoading={isLoadingReset}
+          size={'medium'}
+          variant={'contained'}
+        />
+        <LoadingButton
+          sx={{mt: 3, mr: 2}}
+          onClick={() => onDataRequest()}
+          disabled={dataRequested}
+          text={t('Send GDPR Data')}
+          isLoading={isLoadingData}
+          size={'medium'}
+          variant={'contained'}
+        />
+        <LoadingButton
+          sx={{mt: 3, mr: 2}}
+          onClick={() => onDeleteUser()}
+          disabled={deleteRequested}
+          text={t('Delete account')}
+          isLoading={isLoadingDelete}
+          size={'medium'}
+          style={!deleteRequested ? {backgroundColor: red.A700} : undefined}
+          variant={'contained'}
+        />
+        {error.length ? (
+          <div style={{color: red.A700}} className={'flex justify-center'}>
+            *{t(error)}
+          </div>
+        ) : null}
       </ProfileContentContainer>
+      <Snackbar open={resetRequested} autoHideDuration={2000}>
+        <Alert variant="filled" severity="success" sx={{width: '100%'}}>
+          Reset password email sent! Please check your inbox.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={dataRequested} autoHideDuration={2000}>
+        <Alert variant="filled" severity="success" sx={{width: '100%'}}>
+          GDPR data email sent! Please check your inbox.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={deleteRequested} autoHideDuration={2000}>
+        <Alert variant="filled" severity="success" sx={{width: '100%'}}>
+          Delete account email sent! Please check your inbox.
+        </Alert>
+      </Snackbar>
     </ProfileSection>
   )
 }
