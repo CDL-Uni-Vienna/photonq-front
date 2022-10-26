@@ -72,7 +72,7 @@ export default function ProfileDetailSection() {
 
       await updateAccount({
         firstName: user!.firstName || '',
-        lastName: user!.firstName || ''
+        lastName: user!.lastName || ''
       })
 
       resetSnekbar()
