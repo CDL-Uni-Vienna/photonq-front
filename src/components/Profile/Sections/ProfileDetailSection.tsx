@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
   Snackbar,
   Table,
   TableBody,
@@ -10,9 +9,10 @@ import {
 } from '@mui/material'
 import {red} from '@mui/material/colors'
 import {
-  deleteUser,
+  deleteAccount,
   requestForInformation,
-  resetPassword
+  resetPassword,
+  updateAccount
 } from '@snek-functions/origin'
 import React, {useContext, useState} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -31,11 +31,13 @@ export default function ProfileDetailSection() {
   const {value: user, setValue: setUser} = useContext(AuthContext)
   const [isEditing, setIsEditing] = useState(false)
 
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
   const [isLoadingReset, setIsLoadingReset] = useState(false)
   const [isLoadingData, setIsLoadingData] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
 
   const [dataRequested, setDataRequested] = useState(false)
+  const [updateRequested, setUpdateRequested] = useState(false)
   const [resetRequested, setResetRequested] = useState(false)
   const [deleteRequested, setDeleteRequested] = useState(false)
 
@@ -50,24 +52,43 @@ export default function ProfileDetailSection() {
       setError('')
 
       await requestForInformation({
-        additional: ''
+        additional: JSON.stringify({dataRequested: true})
       })
 
       resetSnekbar()
-      setDataRequested(true)
+      setUpdateRequested(true)
     } catch (e) {
       setError(e.message)
     } finally {
       setIsLoadingData(() => false)
     }
   }
+  const onUpdateAccount = async () => {
+    setIsLoadingUpdate(true)
+    setIsEditing(false)
 
-  const onDeleteUser = async () => {
+    try {
+      setError('')
+
+      await updateAccount({
+        firstName: user!.firstName || '',
+        lastName: user!.firstName || ''
+      })
+
+      resetSnekbar()
+      setUpdateRequested(true)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoadingUpdate(() => false)
+    }
+  }
+  const onDeleteAccount = async () => {
     setIsLoadingDelete(true)
     try {
       setError('')
 
-      await deleteUser({
+      await deleteAccount({
         email: user!.email
       })
 
@@ -138,13 +159,16 @@ export default function ProfileDetailSection() {
               ))}
           </TableBody>
         </Table>
-        <Button
+        <LoadingButton
           sx={{mt: 3, mr: 2}}
-          onClick={() => setIsEditing(!isEditing)}
+          onClick={() =>
+            isEditing ? onUpdateAccount() : setIsEditing(!isEditing)
+          }
+          text={t('Update Informations')}
+          isLoading={isLoadingUpdate}
+          size={'medium'}
           variant={'contained'}
-          size={'medium'}>
-          {t('Update Details')}
-        </Button>
+        />
         <LoadingButton
           sx={{mt: 3, mr: 2}}
           onClick={() => onResetPassword()}
@@ -165,7 +189,7 @@ export default function ProfileDetailSection() {
         />
         <LoadingButton
           sx={{mt: 3, mr: 2}}
-          onClick={() => onDeleteUser()}
+          onClick={() => onDeleteAccount()}
           disabled={deleteRequested}
           text={t('Delete account')}
           isLoading={isLoadingDelete}
@@ -187,6 +211,11 @@ export default function ProfileDetailSection() {
       <Snackbar open={dataRequested} autoHideDuration={2000}>
         <Alert variant="filled" severity="success" sx={{width: '100%'}}>
           GDPR data email sent! Please check your inbox.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={updateRequested} autoHideDuration={2000}>
+        <Alert variant="filled" severity="success" sx={{width: '100%'}}>
+          Saved to Account.
         </Alert>
       </Snackbar>
       <Snackbar open={deleteRequested} autoHideDuration={2000}>

@@ -30,7 +30,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.3",
     "@snek-functions/iam": "^0.0.10",
-    "@snek-functions/origin": "^0.0.24",
+    "@snek-functions/origin": "^0.0.26",
     "@tailwindcss/typography": "^0.5.4",
     "@types/react-helmet": "^6.1.5",
     "framer-motion": "^4",

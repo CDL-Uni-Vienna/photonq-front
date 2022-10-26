@@ -1,7 +1,7 @@
 import {Field, navigate} from '@jaenjs/jaen'
 import {Alert, Snackbar, TextField} from '@mui/material'
 import {red} from '@mui/material/colors'
-import {deleteUser} from '@snek-functions/origin'
+import {deleteAccount} from '@snek-functions/origin'
 import {Link} from 'gatsby'
 import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -77,13 +77,13 @@ export default function UserDeleteForm() {
       setError('')
 
       if (deleteToken === null) {
-        await deleteUser({
+        await deleteAccount({
           email: userDeleteRequestValues.email
         })
         setDeleteRequested(true)
       } else {
         if (userDeleteValues.password) {
-          await deleteUser({
+          await deleteAccount({
             password: userDeleteValues.password,
             token: deleteToken
           })
