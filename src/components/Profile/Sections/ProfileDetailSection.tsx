@@ -9,7 +9,11 @@ import {
   TextField
 } from '@mui/material'
 import {red} from '@mui/material/colors'
-import {deleteUser, resetPassword} from '@snek-functions/origin'
+import {
+  deleteUser,
+  requestForInformation,
+  resetPassword
+} from '@snek-functions/origin'
 import React, {useContext, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {User} from '../../../model/types/type.user'
@@ -45,8 +49,8 @@ export default function ProfileDetailSection() {
     try {
       setError('')
 
-      await deleteUser({
-        email: user!.email
+      await requestForInformation({
+        additional: ''
       })
 
       resetSnekbar()
