@@ -37,7 +37,7 @@ function HowToTemplate(props: PageProps) {
               <Field.Text name="contentType" defaultValue={'type'} />
             }
             title={<Field.Text name="title" defaultValue={'title'} />}
-            subtitle={<Field.Text name="teaser" defaultValue={'title'} />}
+            subtitle={<Field.Text name="teaser" defaultValue={'teaser'} />}
             category={
               <Field.Choice
                 name="category"
