@@ -43,6 +43,7 @@ export default function ProfileDetailSection() {
 
   const resetSnekbar = () => {
     setResetRequested(false)
+    setUpdateRequested(false)
     setDeleteRequested(false)
     setDataRequested(false)
   }
@@ -56,7 +57,7 @@ export default function ProfileDetailSection() {
       })
 
       resetSnekbar()
-      setUpdateRequested(true)
+      setDataRequested(true)
     } catch (e) {
       setError(e.message)
     } finally {
