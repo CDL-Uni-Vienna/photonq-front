@@ -7,7 +7,7 @@ import {
   TableRow,
   TextField
 } from '@mui/material'
-import {red} from '@mui/material/colors'
+import {green, red} from '@mui/material/colors'
 import {
   deleteAccount,
   requestForInformation,
@@ -165,9 +165,10 @@ export default function ProfileDetailSection() {
           onClick={() =>
             isEditing ? onUpdateAccount() : setIsEditing(!isEditing)
           }
-          text={t('Update Informations')}
+          text={isEditing ? t('Save Informations') : t('Update Informations')}
           isLoading={isLoadingUpdate}
           size={'medium'}
+          style={isEditing ? {backgroundColor: green.A700} : undefined}
           variant={'contained'}
         />
         <LoadingButton
