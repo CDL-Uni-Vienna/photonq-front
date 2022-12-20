@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_gatsby_site=self.webpackChunkmy_gatsby_site||[]).push([[6613],{12769:function(e,s,t){t.r(s);var a=t(2436),i=t(10856);s.default=(0,a.connectTemplate)(i.RegisterPage,{displayName:"Register",children:[]})}}]);
+//# sourceMappingURL=component---src-jaen-templates-register-tsx-d2f19bc289912bdfb6a9.js.map
